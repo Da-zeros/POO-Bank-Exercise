@@ -37,6 +37,9 @@ public class App {
 			case "3":
 				createAccount(scaner.askClientName(), clientsDB, bankAccountListDB ,scaner);
 				break;
+			case "4":
+				selectAccountToDeposit(scaner.askClientName(), clientsDB, scaner);
+				break;
 			default:
 				scaner.errorOption();
 				break;
@@ -93,5 +96,52 @@ public class App {
 		else scaner.nonExistentUserMsn();
 		
 	}
+	
+	public static void selectAccountToDeposit(String name,  ArrayList<Client> clientDB, Scaner scaner) {
+	
+		Client client = null;
+		BankAccount account;
+		int nameIndex, acountIndex = 0;
+		
+		nameIndex = checkIfExists(name, clientDB);
+		
+		if( nameIndex != -1) {
+			client = clientDB.get(nameIndex);
+			client.showAccounts(); 
+			acountIndex = checkAccount(client, scaner.askAccountNumber());
+			
+		}if(acountIndex != -1) {
+			client.getAccount(acountIndex);
+		}
+		else scaner.nonExistentUserMsn();
+	}
+	
+	public static int  checkAccount(Client client, int account) {
+		
+		int index, arraySize, accountIndex;
+		boolean accountExists = false;
+		ArrayList<BankAccount> accounts; 
+		
+		arraySize = client.getAccounts().size();
+		index = 0;
+		
+		while(index < arraySize && !accountExists) {
+			accounts = client.getAccounts();
+			accountExists = (accounts.get(index).getAccountNumber() == account) ? true : false;
+			index++;
+		}
+		accountIndex = ( accountExists ) ? index-1 : -1;
+		
+		return accountIndex; 
+		
+		
+	}
+	
+	public static void depositMooney(int index, ArrayList<Client> clientDB,int deposit, Scaner scaner) {
+		
+		
+		
+	}
+	
 
 }

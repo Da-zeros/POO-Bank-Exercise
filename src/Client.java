@@ -9,6 +9,10 @@ public class Client {
 		return accounts;
 	}
 	
+	public BankAccount getAccount(int acount) {
+		return accounts.get(acount);
+	}
+	
 	public Client(String name, String surName) {
 		this.name = name;
 		this.surName = surName;
@@ -30,12 +34,14 @@ public class Client {
 		return surName;
 	}
 
-	public void setSurName(String surName) {
-		this.surName = surName;
-	}
 	
 	public void AddAcount(BankAccount bankAcount) {
 		accounts.add(bankAcount);
+	}
+	public void showAccounts() {
+		for (BankAccount bankAccount : accounts) {
+			System.out.println(bankAccount.getAccountNumber());
+		}
 	}
 
 	
