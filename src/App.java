@@ -106,12 +106,14 @@ public class App {
 		nameIndex = checkIfExists(name, clientDB);
 		
 		if( nameIndex != -1) {
+			
 			client = clientDB.get(nameIndex);
 			client.showAccounts(); 
 			acountIndex = checkAccount(client, scaner.askAccountNumber());
 			
-		}if(acountIndex != -1) {
-			client.getAccount(acountIndex);
+			if(acountIndex != -1) {
+				depositMooney(nameIndex, client, scaner.askAmountMooney());
+			}else scaner.nonExistingACount();
 		}
 		else scaner.nonExistentUserMsn();
 	}
@@ -137,8 +139,10 @@ public class App {
 		
 	}
 	
-	public static void depositMooney(int index, ArrayList<Client> clientDB,int deposit, Scaner scaner) {
-		
+	public static void depositMooney(int index, Client client, int amount) {
+		BankAccount account;
+		account = client.getAccount(index);
+		account.setPlusBalance(amount);
 		
 		
 	}

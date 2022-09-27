@@ -35,6 +35,9 @@ public class Scaner {
 	 public void nonExistentUserMsn() {
 		 System.out.println("This user Doesn't exist");
 	 }
+	 public void nonExistingACount() {
+		 System.out.println("This acount Doesn't exist");
+	 }
 	 
 	 public int askAmountMooney() {
 		 System.out.println("amount of money to be deposited");
