@@ -4,15 +4,13 @@ import java.util.Random;
 public class BankAccount {
 	
 	int accountNumber, balance;
-	ArrayList<Integer> accountNumberList = new ArrayList<Integer>();
 	
-	
-	public BankAccount() {
+	public BankAccount(ArrayList<Integer> bankAccountListDB) {
 		balance = 0;
-		accountNumber = 1;
+		accountNumber = getUnicRandomNumber(bankAccountListDB);
 	};
 	
-	public int getUnicRandomNumber() {
+	public int getUnicRandomNumber(ArrayList<Integer> bankAccountListDB) {
 	    
 		Random random = new Random();
 	    int randomNum, index, arraySize;
@@ -22,23 +20,27 @@ public class BankAccount {
 	    randomIsUnique = true;
 	    randomNum = 0;
 	    
-	    arraySize = accountNumberList.size();
+	    arraySize = bankAccountListDB.size();
 	    index = 0;
 	    
 	    while( !numberAdded ) {
 	    	 
 	    	randomNum = random.nextInt(9999 - 0) + 0;
 	    	 
-	    	 while( index < arraySize || !randomIsUnique ) {
-	    		 
-	    		 if( randomNum == accountNumberList.get(index) ) randomIsUnique = false;
-	    		 else {
-	    			 numberAdded = true;
-	    		 }
-	    		 index++;
-	    	 }
+	    	if(arraySize == 0) 	numberAdded = true;
+	    	else {
+	    		
+	    		while(index < arraySize && randomIsUnique) {
+		    		 
+		    		 if( randomNum == bankAccountListDB.get(index) ) randomIsUnique = false;
+		    		 index++;
+		    	 }
+	    		 numberAdded = (randomIsUnique)?true:false;
+	    		 index = ( !randomIsUnique )? 0: index;
+	    	}
+	    	 
 	    }
-	    accountNumberList.add(randomNum);
+	    bankAccountListDB.add(randomNum);
 	    return randomNum;
 	    
 	}

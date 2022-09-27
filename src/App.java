@@ -11,10 +11,11 @@ public class App {
 	public static void mainMenu() {
 		
 		Scaner scaner = new Scaner();
+		ArrayList<Integer> bankAccountListDB = new ArrayList<Integer>();
 		ArrayList<Client> clientsDB = new ArrayList<Client>();
 		boolean programeRunnig = true;
 		//Working as a dataBase.
-		
+	
 		while ( programeRunnig ) {
 			
 			String choise = scaner.askForOption();
@@ -34,7 +35,7 @@ public class App {
 				delClientFromDB(scaner.askClientName(), clientsDB, scaner);
 				break;
 			case "3":
-				createAccount(scaner.askClientName(), clientsDB, scaner);
+				createAccount(scaner.askClientName(), clientsDB, bankAccountListDB ,scaner);
 				break;
 			default:
 				scaner.errorOption();
@@ -81,12 +82,12 @@ public class App {
 		
 	}
 	
-	public static void createAccount(String name, ArrayList<Client> clientDB, Scaner scaner) {
+	public static void createAccount(String name, ArrayList<Client> clientDB, ArrayList<Integer> bankAccountListDB ,Scaner scaner) {
 		
 		int index;
 		index = checkIfExists(name, clientDB);
 		if( index != -1) {
-			BankAccount acount = new BankAccount();
+			BankAccount acount = new BankAccount(bankAccountListDB);
 			clientDB.get(index).AddAcount(acount);
 		}
 		else scaner.nonExistentUserMsn();
