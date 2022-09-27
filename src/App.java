@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 
 
+
 public class App {
 
 	public static void main(String[] args) {
@@ -26,10 +27,7 @@ public class App {
 				programeRunnig = false;
 				break;
 			case "1":
-				addClientToDB(createClient( scaner.askClientName(), scaner.askClientSurname()), clientsDB); 
-				for (Client client : clientsDB) {
-					System.out.println(client);
-				}
+				addClientToDB(createClient( scaner.askClientName(), scaner.askClientSurname(), scaner), clientsDB); 
 				break;
 			case "2":
 				delClientFromDB(scaner.askClientName(), clientsDB, scaner);
@@ -40,6 +38,9 @@ public class App {
 			case "4":
 				selectAccountToDeposit(scaner.askClientName(), clientsDB, scaner);
 				break;
+			case "5":
+				 selectAccountToWidraw(scaner.askClientName(), clientsDB, scaner);
+				break;
 			default:
 				scaner.errorOption();
 				break;
@@ -47,13 +48,15 @@ public class App {
 		}
 	}
 	
-	public static Client createClient(String name, String surName) {
+	public static Client createClient(String name, String surName, Scaner scaner) {
 		
 		Client newClient = new Client(name, surName);
+		System.out.println(scaner.createdUser(newClient.getName()));
 		return newClient;
 	}
 	
 	public static void addClientToDB(Client client, ArrayList<Client> clientDB) {
+		
 		clientDB.add(client);
 	}
 	
@@ -92,15 +95,21 @@ public class App {
 		if( index != -1) {
 			BankAccount acount = new BankAccount(bankAccountListDB);
 			clientDB.get(index).AddAcount(acount);
+			System.out.println(scaner.createdAcount(acount.getAccountNumber())); 
+			
 		}
 		else scaner.nonExistentUserMsn();
 		
 	}
 	
+	/*
+	 * this function is repeated by changing the functions inside it, 
+	 * to improve it you could find a way to pass the internal functions as arguments in order to simplify the two functions into one.
+	 * */
 	public static void selectAccountToDeposit(String name,  ArrayList<Client> clientDB, Scaner scaner) {
 	
 		Client client = null;
-		BankAccount account;
+		
 		int nameIndex, acountIndex = 0;
 		
 		nameIndex = checkIfExists(name, clientDB);
@@ -112,7 +121,9 @@ public class App {
 			acountIndex = checkAccount(client, scaner.askAccountNumber());
 			
 			if(acountIndex != -1) {
-				depositMooney(nameIndex, client, scaner.askAmountMooney());
+				//How to pass this method as a parameter to dont duplicate the function ???
+				depositMooney(acountIndex, client, scaner.askAmountMooney(), scaner);
+				
 			}else scaner.nonExistingACount();
 		}
 		else scaner.nonExistentUserMsn();
@@ -139,12 +150,48 @@ public class App {
 		
 	}
 	
-	public static void depositMooney(int index, Client client, int amount) {
+	public static void depositMooney(int index, Client client, int amount, Scaner scaner) {
 		BankAccount account;
 		account = client.getAccount(index);
 		account.setPlusBalance(amount);
+		System.out.println(account.toString());
+		scaner.bufferClean();
 		
+	}
+	
+	/*
+	 * this function is repeated by changing the functions inside it, 
+	 * to improve it you could find a way to pass the internal functions as arguments in order to simplify the two functions into one.
+	 * */
+	public static void selectAccountToWidraw(String name,  ArrayList<Client> clientDB, Scaner scaner) {
 		
+		Client client = null;
+		
+		int nameIndex, acountIndex = 0;
+		
+		nameIndex = checkIfExists(name, clientDB);
+		
+		if( nameIndex != -1) {
+			
+			client = clientDB.get(nameIndex);
+			client.showAccounts(); 
+			acountIndex = checkAccount(client, scaner.askAccountNumber());
+			
+			if(acountIndex != -1) {
+				//How to pass this method as a parameter to dont duplicate the function ???
+				withdrawMoney(acountIndex, client, scaner.askAmountMooneyToWithdraw(), scaner);
+				
+			}else scaner.nonExistingACount();
+		}
+		else scaner.nonExistentUserMsn();
+	}
+	
+	public static void withdrawMoney(int index, Client client, int amount, Scaner scaner) {
+		BankAccount account;
+		account = client.getAccount(index);
+		account.setMinusBalance(amount);
+		System.out.println(account.toString());
+		scaner.bufferClean();
 	}
 	
 

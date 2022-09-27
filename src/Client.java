@@ -3,6 +3,8 @@ import java.util.ArrayList;
 public class Client {
 	
 	private String name, surName;
+	
+	//a customer can have several accounts 
 	private ArrayList<BankAccount> accounts = new ArrayList<BankAccount>();
 	
 	public ArrayList<BankAccount> getAccounts() {
@@ -26,20 +28,13 @@ public class Client {
 		return name;
 	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getSurName() {
-		return surName;
-	}
-
 	
 	public void AddAcount(BankAccount bankAcount) {
 		accounts.add(bankAcount);
 	}
 	public void showAccounts() {
 		for (BankAccount bankAccount : accounts) {
+			System.out.println("Available accounts");
 			System.out.println(bankAccount.getAccountNumber());
 		}
 	}

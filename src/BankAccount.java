@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 import java.util.Random;
-
+import java.text.MessageFormat;
 public class BankAccount {
 	
 	int accountNumber, balance;
@@ -20,12 +20,26 @@ public class BankAccount {
 	public void setPlusBalance(int balance) {
 		this.balance += balance;
 	}
+	
+	public void setMinusBalance(int amount) {
+		
+		Scaner scaner = new Scaner();
+		if(amount > balance) scaner.amountError();
+		else this.balance-= amount;
+	}
+
+	public String toString() {
+		
+		return MessageFormat.format("Account balance {0}", balance);
+		
+	}
 
 	public BankAccount(ArrayList<Integer> bankAccountListDB) {
 		balance = 0;
 		accountNumber = getUnicRandomNumber(bankAccountListDB);
 	};
 	
+	 //function that generates a random number and compares it with the existing ones in a list (as a database) to avoid repeating them. 
 	public int getUnicRandomNumber(ArrayList<Integer> bankAccountListDB) {
 	    
 		Random random = new Random();
